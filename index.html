@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon RDS Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --slide-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent: #f97316;
+            /* AWS Orange */
+            --accent-hover: #ea580c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .header-controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Viewport */
+        .viewport {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            width: 100%;
+            height: calc(100vh - 80px);
+            /* Leave room for bottom bar */
+        }
+
+        /* Slide Styles */
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: row;
+            background: var(--slide-bg);
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: slideFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Slide Content (Left Side) */
+        .slide-content-area {
+            flex: 1;
+            padding: 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        .slide-content-area h2 {
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-content-area ul {
+            list-style: none;
+        }
+
+        .slide-content-area ul li {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-left: 2.5rem;
+            color: #cbd5e1;
+            animation: staggerFadeIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        /* Stagger animation for list items */
+        .slide-content-area ul li:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .slide-content-area ul li:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .slide-content-area ul li:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .slide-content-area ul li:nth-child(4) {
+            animation-delay: 0.5s;
+        }
+
+        .slide-content-area ul li:nth-child(5) {
+            animation-delay: 0.6s;
+        }
+
+        .slide-content-area ul li:nth-child(6) {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes staggerFadeIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-content-area ul li::before {
+            content: '\f105';
+            /* FontAwesome angle-right */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Slide Image (Right Side) */
+        .slide-image-area {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        /* Gradient mask to blend image with dark background */
+        .slide-image-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #1e293b 0%, transparent 40%);
+        }
+
+        /* Title Slide Special Rule */
+        .slide.title-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.title-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(5px);
+        }
+
+        .slide.title-screen .title-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+        }
+
+        .slide.title-screen h1 {
+            font-size: 4.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(249, 115, 22, 0.5);
+        }
+
+        .slide.title-screen h3 {
+            font-size: 2rem;
+            color: #e2e8f0;
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        /* Bottom Controls */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(15, 23, 42, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            margin: 0 3rem;
+        }
+
+        .progress-text {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 5%;
+            transition: width 0.3s ease;
+        }
+
+        .action-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* MCQ Section */
+        .mcq-wrapper {
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 6rem 2rem;
+            background: var(--bg-color);
+        }
+
+        .mcq-wrapper.active {
+            display: block;
+        }
+
+        .mcq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .mcq-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .mcq-header h2 {
+            font-size: 3rem;
+            color: #3b82f6;
+            /* Blue for MCQs */
+        }
+
+        .mcq-card {
+            background: var(--slide-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .mcq-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mcq-option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.1rem;
+            text-align: left;
+            color: #fff;
+        }
+
+        .mcq-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mcq-option.correct {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+            color: #4ade80;
+        }
+
+        .mcq-option.wrong {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #f87171;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+            .slide {
+                flex-direction: column;
+            }
+
+            .slide-image-area {
+                flex: 0.5;
+            }
+
+            .slide-image-area::before {
+                background: linear-gradient(to bottom, #1e293b 0%, transparent 40%);
+            }
+
+            .slide-content-area {
+                padding: 3rem;
+            }
+
+            .slide-content-area h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fa-brands fa-aws" style="color: #f97316; font-size: 1.5rem;"></i> Amazon RDS
+        </div>
+        <div class="header-controls">
+            <button id="fullscreenBtn" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i> Full
+                Screen</button>
+        </div>
+    </div>
+
+    <!-- Viewport for Presentation -->
+    <div class="viewport" id="viewport">
+        <!-- Rendered by JS -->
+    </div>
+
+    <!-- MCQ Viewport -->
+    <div class="mcq-wrapper" id="mcqViewport">
+        <div class="mcq-container">
+            <div class="mcq-header">
+                <h2>Knowledge Check</h2>
+                <p style="color: #94a3b8; font-size: 1.2rem; margin-top: 1rem;">10 Multiple Choice Questions</p>
+            </div>
+            <div id="quiz-container">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-bar">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i>
+            Prev</button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-text" id="progressText">Slide 1 / 25</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next <i
+                class="fa-solid fa-chevron-right"></i></button>
+
+        <button class="action-btn" id="toggleModeBtn" onclick="toggleMode()">Take Quiz Mode</button>
+    </div>
+
+    <script>
+        // Data containing all presentation content
+        const slideData = [
+            {
+                title: "Amazon RDS",
+                subtitle: "Relational Database Service",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80",
+                points: ["A Comprehensive Overview of AWS Managed Databases", "Understanding Core Architecture and Components", "High Availability and Scaling Strategies", "Security and Performance Optimization", "Real-World Use Cases and Pricing Model"],
+                isTitle: true
+            },
+            {
+                title: "Introduction to Databases",
+                image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1000&q=80",
+                points: ["A database is an organized collection of structured information or data.", "Allows for efficient storage, retrieval, and management of data.", "Essential for dynamic websites, applications, and enterprise systems.", "Ensures data integrity, security, and concurrent access by multiple users.", "Maintained by Database Management Systems (DBMS)."]
+            },
+            {
+                title: "Relational vs Non-Relational",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+                points: ["Relational Databases (SQL) structure data in tables with rows and columns.", "Relational models enforce strict schema and ACID data integrity.", "Non-Relational Databases (NoSQL) store unstructured or semi-structured data.", "NoSQL scales horizontally efficiently, preferred for large-scale distributed data.", "SQL: MySQL, PostgreSQL | NoSQL: MongoDB, DynamoDB."]
+            },
+            {
+                title: "What is Amazon RDS?",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80",
+                points: ["Amazon RDS is a fully managed relational database service by AWS.", "Simplifies setting up, operating, and scaling a SQL database in the cloud.", "Automates tedious tasks like hardware provisioning and backups.", "Developers can focus on application logic, not database maintenance.", "Offers resizable capacity while providing robust administration tools."]
+            },
+            {
+                title: "Overview of AWS Cloud",
+                image: "https://images.unsplash.com/photo-1461685265823-f8d5d0b08b9b?auto=format&fit=crop&w=1000&q=80",
+                points: ["AWS is a comprehensive and highly secure cloud computing platform.", "Provides over 200 fully featured services from regional data centers.", "Offers computing power, database storage, and content delivery.", "Operates on a pay-as-you-go pricing model without upfront hardware costs.", "Allows seamless infrastructure auto-scaling to meet dynamic demands."]
+            },
+            {
+                title: "Why Use Amazon RDS?",
+                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80",
+                points: ["Reduced administration via automated patching, backups, and recovery.", "Effortless horizontal and vertical scaling with minimal downtime.", "Consistently high performance suitable for mission-critical workloads.", "Highly secure environment using robust AWS VPC network isolation protocols.", "Deeply integrated high availability architecture to minimize failures."]
+            },
+            {
+                title: "RDS Architecture Overview",
+                image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1000&q=80",
+                points: ["Operates within a Virtual Private Cloud (VPC) for total network isolation.", "Compute instances handle requests and execute the DB engine.", "Data and logs are stored persistently on Elastic Block Store (EBS) volumes.", "Optional synchronous replication to a standby instance for Multi-AZ.", "Endpoints provide a stable connection URL decoupled from physical IPs."]
+            },
+            {
+                title: "Core Components",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
+                points: ["DB Instance: An isolated database environment running in the cloud.", "Storage: Backed by EBS optimized for DB I/O performance.", "Endpoint: A DNS address that applications use to connect to the DB.", "Parameter Groups: Custom configurations determining system behavior.", "Security Groups: Virtual firewalls controlling allowed DB traffic."]
+            },
+            {
+                title: "Supported Database Engines",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80",
+                points: ["MySQL: The most widely adopted open-source relational database.", "PostgreSQL: Advanced, enterprise-tier open-source object-relational DB.", "MariaDB: A high-performance, community-developed fork of MySQL.", "Oracle: A premium, widely used commercial database management system.", "SQL Server: Microsoft's powerful DB for enterprise applications."]
+            },
+            {
+                title: "Amazon Aurora",
+                image: "https://images.unsplash.com/photo-1462206092226-f46025ffe607?auto=format&fit=crop&w=1000&q=80",
+                points: ["A proprietary AWS DB engine fully compatible with MySQL and PostgreSQL.", "Offers up to 5x the throughput of standard MySQL and 3x of PostgreSQL.", "Divides volume into 10GB segments spread across multiple storage nodes.", "Replicates six copies of data across three Availability Zones immediately.", "Features 'Serverless' auto-scaling capabilities for variable workloads."]
+            },
+            {
+                title: "RDS Instance Types",
+                image: "https://images.unsplash.com/photo-1534081333815-abc501509176?auto=format&fit=crop&w=1000&q=80",
+                points: ["Standard (m-series): Balance of compute, memory, and network resources.", "Memory Optimized (r/x-series): High RAM ratios for complex operations.", "Burstable Performance (t-series): Baseline performance with CPU burst limits.", "Selection heavily depends on application CPU/memory utilization patterns.", "Instance families can be easily modified later as requirements evolve."]
+            },
+            {
+                title: "Storage Types",
+                image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=1000&q=80",
+                points: ["General Purpose (SSD): Balanced price/performance for most workloads.", "Provisioned IOPS (SSD): For high-performance, I/O intensive databases.", "Magnetic (Standard): Legacy storage for backward compatibility.", "Supports Storage Auto Scaling, preventing 'out of space' disruptions.", "Maximum storage limits can reach up to 64-128 TiB for primary engines."]
+            },
+            {
+                title: "High Availability (Multi-AZ)",
+                image: "https://images.unsplash.com/photo-1614064641913-6b71a2ec9697?auto=format&fit=crop&w=1000&q=80",
+                points: ["Automatically provisions a synchronous standby replica.", "The standby lives in a physically different Availability Zone (AZ).", "In case of primary failure, RDS automatically fails over to the standby.", "The Endpoint URL remains exactly the same, preventing app reconfiguration.", "Essential for enterprise production environments and disaster recovery."]
+            },
+            {
+                title: "Read Replicas",
+                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80",
+                points: ["Asynchronous copies of the primary instance used to offload logic.", "Drastically improves application performance for read-heavy operations.", "Up to 15 Read Replicas can be created per primary RDS database.", "Can be manually promoted into a standalone primary DB if needed.", "Natively supported for MySQL, PostgreSQL, MariaDB, and Oracle."]
+            },
+            {
+                title: "Backup and Recovery",
+                image: "https://images.unsplash.com/photo-1614064850003-14afe6e3415e?auto=format&fit=crop&w=1000&q=80",
+                points: ["Automated Backups: Continuous snapshot creation during backup windows.", "Allows Point-In-Time Recovery (PITR) to any specific second.", "Recovery point window can be configured up to 35 days in the past.", "Manual Snapshots: User-initiated backups kept until manually deleted.", "Snapshots can be copied to move databases across global AWS Regions."]
+            },
+            {
+                title: "Security in RDS",
+                image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1000&q=80",
+                points: ["Data Encryption at Rest using AWS Key Management Service (KMS).", "Data Encryption in Transit requiring SSL/TLS certificates.", "IAM Authentication limits reliance on built-in native DB passwords.", "Transparent Data Encryption (TDE) support for SQL Server and Oracle.", "Strict hypervisor-level OS isolation protects underlying hardware."]
+            },
+            {
+                title: "Networking Basics",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
+                points: ["Total network compartmentalization using Virtual Private Cloud (VPC).", "Private subnets ensure DBs are not directly accessible from the internet.", "Subnet Groups map the specific IP ranges available for RDS allocation.", "Security Groups act as stateful firewalls bounding traffic strictly.", "Must explicitly whitelist inbound traffic and specific engine ports."]
+            },
+            {
+                title: "Monitoring and Performance",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80",
+                points: ["Amazon CloudWatch natively monitors CPU, IOPS, and Storage.", "Enhanced Monitoring provides granular, real-time, OS-level metrics.", "Performance Insights visualizes database load systematically.", "CloudWatch Alarms trigger automated scripts or email notifications.", "Logs (Error, General, Slow Query) can be exported entirely to CloudWatch."]
+            },
+            {
+                title: "Performance Optimization",
+                image: "https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?auto=format&fit=crop&w=1000&q=80",
+                points: ["Indexing tables correctly ensures efficient internal data retrieval.", "Fine-tuning DB Parameter Groups (e.g., maximum concurrent connections).", "Offloading intensive reads using Read Replicas or ElastiCache caching.", "Right-sizing compute instances and provisioning appropriate IOPS storage.", "Using Performance Insights to re-write heavily bottlenecked queries."]
+            },
+            {
+                title: "Pricing Model",
+                image: "https://images.unsplash.com/photo-1580519542036-ed47f3e42a1d?auto=format&fit=crop&w=1000&q=80",
+                points: ["Pay-As-You-Go model with absolutely no upfront long-term contracts.", "Factor costs: Instance Class, Storage, Multi-AZ, and Egress Data Network.", "Reserved Instances (1/3 years) offer 30-50% significant cost savings.", "Stopped instances only incur charges for their provisioned persistent storage.", "Ingress Data Transfer strictly into an AWS Region is generally free."]
+            },
+            {
+                title: "RDS vs Self-Managed",
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80",
+                points: ["Self-managed requires complex OS patching, manual scaling, and scripts.", "RDS absolutely eliminates 'undifferentiated heavy lifting' tasks.", "Self-managed allows full SSH/Root access to the DB host OS.", "RDS purposely restricts root access to maintain system stability.", "RDS often yields a dramatically lower Total Cost of Ownership (TCO)."]
+            },
+            {
+                title: "RDS vs Aurora",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
+                points: ["RDS utilizes standard open-source DB engines directly on EC2.", "Aurora is explicitly cloud-native with a distributed storage subsystem.", "Aurora handles automatic distributed storage scaling up to 128 TiB.", "Aurora features noticeably faster failovers compared to Multi-AZ RDS.", "Aurora pricing is higher but offers overwhelmingly superior concurrency."]
+            },
+            {
+                title: "Real-World Use Cases",
+                image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=80",
+                points: ["Web/Mobile Apps: Highly scalable backends for millions of users.", "E-commerce Platforms: Strong transactional consistency for retail carts.", "Financial Operations: Rigid ACID compliance for banking transactions.", "Gaming Servers: Real-time processing for dynamic player states.", "Enterprise CRM: Migrating legacy databases directly into the cloud."]
+            },
+            {
+                title: "Advantages & Limitations",
+                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80",
+                points: ["Pros: Immediate deployment, high scalability, automated fault tolerance.", "Pros: Wide engine compatibility with very minimal operational overhead.", "Cons: Cannot deeply access the underlying operating system.", "Cons: Scale limits exist strictly based on DB engine restrictions.", "Cons: Version upgrades sometimes require forced scheduled downtime."]
+            },
+            {
+                title: "Conclusion",
+                image: "https://images.unsplash.com/photo-1462206092226-f46025ffe607?auto=format&fit=crop&w=1000&q=80",
+                points: ["RDS transforms traditional complex databases into a simple cloud utility.", "Enables rapid deployment and robust high-availability capabilities.", "Frees developers to innovate rather than manage hardware logistics.", "The logical bridge between self-managed DBs and pure serverless data.", "Evaluate Aurora for extreme scale, or standard RDS for broad compatibility."]
+            }
+        ];
+
+        // MCQs
+        const mcqData = [
+            {
+                q: "What does managing a database with Amazon RDS successfully eliminate?",
+                options: ["A. Designing database tables and schema", "B. Writing and optimizing SQL queries", "C. Routine OS patching, backups, and hardware provisioning", "D. Accessing the database over the internet securely"],
+                ans: 2
+            },
+            {
+                q: "Which AWS service heavily enforces network isolation for an Amazon RDS instance?",
+                options: ["A. AWS Lambda", "B. Amazon Virtual Private Cloud (VPC)", "C. Amazon Elastic Block Store (EBS)", "D. AWS CloudFormation"],
+                ans: 1
+            },
+            {
+                q: "For maximizing fault tolerance, an RDS instance should be deployed using which configuration?",
+                options: ["A. Read Replica", "B. Provisioned IOPS Storage", "C. Multi-AZ deployment", "D. Magnetic Storage"],
+                ans: 2
+            },
+            {
+                q: "What is the primary purpose of an Amazon RDS Read Replica?",
+                options: ["A. To provide a synchronous failover target", "B. To serve as a complete backup point in time", "C. To scale out read-heavy database workloads asymptotically", "D. To upgrade database engine versions automatically"],
+                ans: 2
+            },
+            {
+                q: "Which RDS database engine is custom-built by AWS for high-performance cloud architecture?",
+                options: ["A. Oracle", "B. Amazon Aurora", "C. SQL Server", "D. MariaDB"],
+                ans: 1
+            },
+            {
+                q: "In terms of security, what natively ensures that data at rest in Amazon RDS DBs is fully encrypted?",
+                options: ["A. AWS Key Management Service (KMS)", "B. Secure Socket Layers (SSL)", "C. Transport Layer Security (TLS)", "D. Amazon Route 53"],
+                ans: 0
+            },
+            {
+                q: "What is used by applications to point connection strings correctly to an Amazon RDS Database?",
+                options: ["A. Elastic IP address", "B. IAM Role ARN", "C. Compute Instance ID", "D. RDS Endpoint DNS Name"],
+                ans: 3
+            },
+            {
+                q: "To deeply analyze individual slow SQL queries and track DB load, which tool is most optimal?",
+                options: ["A. Performance Insights", "B. RDS Multi-AZ Dashboard", "C. AWS Systems Manager", "D. Elastic DB Tuner"],
+                ans: 0
+            },
+            {
+                q: "What limits how far back Point-In-Time Recovery (PITR) can go in Amazon RDS?",
+                options: ["A. Last 24 hours only", "B. Configured backup retention period up to 35 days", "C. Indefinite recovery", "D. PITR is not supported"],
+                ans: 1
+            },
+            {
+                q: "What is a clear limitation of choosing Amazon RDS over a self-managed database on EC2?",
+                options: ["A. Cannot connect over secure SSL explicitly", "B. Complete inability to scale storage after initial creation", "C. No root or SSH level access to the underlying DB operating system", "D. Must prepay hardware fee"],
+                ans: 2
+            }
+        ];
+
+        // System state
+        let currentSlide = 0;
+        let isQuizMode = false;
+
+        const viewport = document.getElementById('viewport');
+        const mcqViewport = document.getElementById('mcqViewport');
+        const progressText = document.getElementById('progressText');
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const toggleModeBtn = document.getElementById('toggleModeBtn');
+        const progressContainer = document.getElementById('progressContainer');
+
+        // Render slides dynamically
+        function renderSlides() {
+            slideData.forEach((data, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slide';
+                if (index === 0) slideDiv.classList.add('active');
+
+                if (data.isTitle) {
+                    slideDiv.classList.add('title-screen');
+                    slideDiv.style.backgroundImage = `url('${data.image}')`;
+
+                    const card = document.createElement('div');
+                    card.className = 'title-card';
+
+                    const h1 = document.createElement('h1');
+                    h1.textContent = data.title;
+                    card.appendChild(h1);
+
+                    const h3 = document.createElement('h3');
+                    h3.textContent = data.subtitle;
+                    card.appendChild(h3);
+
+                    const ul = document.createElement('ul');
+                    ul.style.listStyle = 'none';
+                    ul.style.color = '#cbd5e1';
+
+                    data.points.forEach(p => {
+                        const li = document.createElement('li');
+                        li.textContent = p;
+                        li.style.marginBottom = '0.5rem';
+                        ul.appendChild(li);
+                    });
+
+                    card.appendChild(ul);
+                    slideDiv.appendChild(card);
+                } else {
+                    // Split Layout
+                    const contentArea = document.createElement('div');
+                    contentArea.className = 'slide-content-area';
+
+                    const h2 = document.createElement('h2');
+                    h2.textContent = data.title;
+                    contentArea.appendChild(h2);
+
+                    const ul = document.createElement('ul');
+                    data.points.forEach(p => {
+                        const li = document.createElement('li');
+                        li.textContent = p;
+                        ul.appendChild(li);
+                    });
+                    contentArea.appendChild(ul);
+
+                    const imageArea = document.createElement('div');
+                    imageArea.className = 'slide-image-area';
+                    imageArea.style.backgroundImage = `url('${data.image}')`;
+
+                    slideDiv.appendChild(contentArea);
+                    slideDiv.appendChild(imageArea);
+                }
+
+                viewport.appendChild(slideDiv);
+            });
+        }
+
+        // Render MCQs dynamically
+        function renderMCQs() {
+            const quizContainer = document.getElementById('quiz-container');
+            mcqData.forEach((mcq, qIndex) => {
+                const card = document.createElement('div');
+                card.className = 'mcq-card';
+
+                const title = document.createElement('h3');
+                title.textContent = `Q${qIndex + 1}: ${mcq.q}`;
+                card.appendChild(title);
+
+                const optionsList = document.createElement('div');
+                optionsList.className = 'mcq-options';
+
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback';
+
+                let answered = false;
+
+                mcq.options.forEach((optStr, optIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'mcq-option';
+                    btn.textContent = optStr;
+
+                    btn.onclick = () => {
+                        if (answered) return;
+                        answered = true;
+
+                        const children = optionsList.children;
+                        for (let i = 0; i < children.length; i++) {
+                            children[i].style.cursor = 'default';
+                            if (i === mcq.ans) {
+                                children[i].classList.add('correct');
+                            }
+                        }
+
+                        if (optIndex === mcq.ans) {
+                            feedback.textContent = '✅ Correct!';
+                            feedback.style.color = '#4ade80';
+                        } else {
+                            btn.classList.add('wrong');
+                            feedback.textContent = '❌ Incorrect. The right answer is marked in green.';
+                            feedback.style.color = '#f87171';
+                        }
+                        feedback.style.display = 'block';
+                    };
+
+                    optionsList.appendChild(btn);
+                });
+
+                card.appendChild(optionsList);
+                card.appendChild(feedback);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function updateUI() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((s, idx) => {
+                s.classList.remove('active');
+                if (idx === currentSlide) s.classList.add('active');
+            });
+
+            progressText.textContent = `Slide ${currentSlide + 1} / ${slideData.length}`;
+            progressBar.style.width = `${((currentSlide + 1) / slideData.length) * 100}%`;
+
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slideData.length - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        function toggleMode() {
+            isQuizMode = !isQuizMode;
+            if (isQuizMode) {
+                viewport.style.display = 'none';
+                mcqViewport.classList.add('active');
+                toggleModeBtn.textContent = 'Back to Presentation';
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                progressContainer.style.display = 'none';
+            } else {
+                mcqViewport.classList.remove('active');
+                viewport.style.display = 'flex';
+                toggleModeBtn.textContent = 'Take Quiz Mode';
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+                progressContainer.style.display = 'flex';
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Keyboard commands
+        document.addEventListener('keydown', (e) => {
+            if (!isQuizMode) {
+                if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            }
+        });
+
+        // Initialize
+        renderSlides();
+        renderMCQs();
+        updateUI();
+
+    </script>
+</body>
+
+</html>
