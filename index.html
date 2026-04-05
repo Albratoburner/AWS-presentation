@@ -770,6 +770,40 @@
                 ]
             },
             {
+                title: "Amazon RDS Proxy",
+                image: "images/s26_proxy.jpg",
+                points: [
+                    "Fully managed serverless database proxy for Amazon RDS and Amazon Aurora engines.",
+                    "Efficiently pools and shares DB connections to dramatically reduce underlying CPU/RAM stress.",
+                    "Minimizes open connection management overhead and prevents application timeout failures.",
+                    "Reduces overall RDS and Aurora failover interruption times by up to an impressive 66%.",
+                    "Enforces rigid IAM Authentication, securely isolating credentials natively within AWS Secrets Manager.",
+                    "Operates strictly internally; never publicly accessible without routing explicitly inward through the VPC."
+                ]
+            },
+            {
+                title: "Aurora Database Cloning",
+                image: "images/s27_cloning.jpg",
+                points: [
+                    "Instantaneously creates a complete identical new cluster directly from an active existing Aurora database.",
+                    "Executes completely at the storage-level, making it exponentially faster than traditional snapshot restores.",
+                    "Utilizes an advanced 'copy-on-write' underlying protocol, incurring absolutely zero initial storage costs.",
+                    "Additional storage charges solely apply sequentially as the active cloned volume diverges from the original source.",
+                    "A flawless architectural mechanism for quickly standing up identical production datasets strictly for debugging."
+                ]
+            },
+            {
+                title: "RDS Backups & Snapshots",
+                image: "images/s28_backups.jpg",
+                points: [
+                    "Automated Backups natively occur silently during designated active systemic maintenance windows.",
+                    "Transaction logs are forcefully retained enabling exact Point-in-Time Recovery (PITR) up to the precise second.",
+                    "Primary backup retention periods intuitively scale dynamically anywhere from 0 (disabled) up to 35 full days.",
+                    "User-initiated Manual DB Snapshots serve as isolated deep clones persisting permanently until deleted.",
+                    "Snapshots robustly support explicit secure sharing across entirely separated AWS Accounts or globally separated Regions."
+                ]
+            },
+            {
                 title: "Conclusion",
                 image: "images/s25_conc.jpg",
                 points: [
