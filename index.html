@@ -502,133 +502,283 @@
 
     <script>
         // Data containing all presentation content
-        const slideData = [
+                const slideData = [
             {
                 title: "Amazon RDS",
                 subtitle: "Relational Database Service",
-                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80",
-                points: ["A Comprehensive Overview of AWS Managed Databases", "Understanding Core Architecture and Components", "High Availability and Scaling Strategies", "Security and Performance Optimization", "Real-World Use Cases and Pricing Model"],
+                image: "https://picsum.photos/seed/awsrds_title1/1200/800",
+                points: [
+                    "A Comprehensive Overview of AWS Fully-Managed Relational Databases.",
+                    "Deep Dive into Core Architecture, VPC Integration, and Components.",
+                    "Designing for High Availability: Multi-AZ and Read Replica Strategies.",
+                    "Advanced Security Protocols, KMS Encryption, and Performance Tuning.",
+                    "Industry Real-World Use Cases, Best Practices, and TCO Pricing Models."
+                ],
                 isTitle: true
             },
             {
                 title: "Introduction to Databases",
-                image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1000&q=80",
-                points: ["A database is an organized collection of structured information or data.", "Allows for efficient storage, retrieval, and management of data.", "Essential for dynamic websites, applications, and enterprise systems.", "Ensures data integrity, security, and concurrent access by multiple users.", "Maintained by Database Management Systems (DBMS)."]
+                image: "https://picsum.photos/seed/awsrds_db2/1200/800",
+                points: [
+                    "A database is an organized, structured repository of data optimized for rapid access and management.",
+                    "Essential foundation for modern dynamic websites, mobile applications, and complex enterprise backends.",
+                    "DBMS ensures critical data integrity through constraints, locking mechanisms, and transaction isolation.",
+                    "Facilitates highly concurrent access while preventing data corruption from race conditions.",
+                    "Modern systems scale massively to handle terabytes of data with sub-millisecond query latency."
+                ]
             },
             {
                 title: "Relational vs Non-Relational",
-                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
-                points: ["Relational Databases (SQL) structure data in tables with rows and columns.", "Relational models enforce strict schema and ACID data integrity.", "Non-Relational Databases (NoSQL) store unstructured or semi-structured data.", "NoSQL scales horizontally efficiently, preferred for large-scale distributed data.", "SQL: MySQL, PostgreSQL | NoSQL: MongoDB, DynamoDB."]
+                image: "https://picsum.photos/seed/awsrds_rel3/1200/800",
+                points: [
+                    "Relational (SQL): Strict schemas defining tables, rows, columns, and foreign key relationships.",
+                    "Relational databases enforce ACID properties (Atomicity, Consistency, Isolation, Durability) for reliability.",
+                    "Non-Relational (NoSQL): Flexible schemas handling JSON-like documents, key-value pairs, or graph data.",
+                    "NoSQL is optimized for horizontal scaling across commodity hardware without complex joining logic.",
+                    "Ecosystem: MySQL, PostgreSQL, Oracle (SQL) vs. MongoDB, DynamoDB, Cassandra (NoSQL)."
+                ]
             },
             {
                 title: "What is Amazon RDS?",
-                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80",
-                points: ["Amazon RDS is a fully managed relational database service by AWS.", "Simplifies setting up, operating, and scaling a SQL database in the cloud.", "Automates tedious tasks like hardware provisioning and backups.", "Developers can focus on application logic, not database maintenance.", "Offers resizable capacity while providing robust administration tools."]
+                image: "https://picsum.photos/seed/awsrds_rds4/1200/800",
+                points: [
+                    "Amazon RDS is a robust, fully managed Database-as-a-Service (DBaaS) provided by AWS.",
+                    "Abstracts away the underlying OS, allowing focus strictly on schema/query optimization.",
+                    "Completely automates repetitive administrative tasks like disk provisioning, patching, and backups.",
+                    "Offers simple vertical scaling (instance size) and horizontal read scaling (replicas) via API or Console.",
+                    "Designed to quickly provision production-ready, highly tuned databases in a matter of minutes."
+                ]
             },
             {
                 title: "Overview of AWS Cloud",
-                image: "https://images.unsplash.com/photo-1461685265823-f8d5d0b08b9b?auto=format&fit=crop&w=1000&q=80",
-                points: ["AWS is a comprehensive and highly secure cloud computing platform.", "Provides over 200 fully featured services from regional data centers.", "Offers computing power, database storage, and content delivery.", "Operates on a pay-as-you-go pricing model without upfront hardware costs.", "Allows seamless infrastructure auto-scaling to meet dynamic demands."]
+                image: "https://picsum.photos/seed/awsrds_cloud5/1200/800",
+                points: [
+                    "AWS provides a massive global infrastructure comprising Regions and isolated Availability Zones (AZs).",
+                    "Offers a rich catalog of 200+ fully featured services including Compute (EC2), Storage (S3), and Networking.",
+                    "Operates on a strictly utility-based pay-as-you-go pricing model with absolutely no upfront hardware costs.",
+                    "Enables extreme infrastructure elasticity, automatically scaling out during traffic spikes and scaling in to save money.",
+                    "Adheres to the absolute highest global security standards, ensuring HIPAA, SOC, and PCI compliance natively."
+                ]
             },
             {
                 title: "Why Use Amazon RDS?",
-                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80",
-                points: ["Reduced administration via automated patching, backups, and recovery.", "Effortless horizontal and vertical scaling with minimal downtime.", "Consistently high performance suitable for mission-critical workloads.", "Highly secure environment using robust AWS VPC network isolation protocols.", "Deeply integrated high availability architecture to minimize failures."]
+                image: "https://picsum.photos/seed/awsrds_why6/1200/800",
+                points: [
+                    "Drastically reduces database administration constraints, lowering overall engineering operational overhead.",
+                    "Features automated Point-In-Time recovery and zero-downtime automated OS and Engine minor version patching.",
+                    "Delivers consistently high network performance optimized specifically for database I/O workloads.",
+                    "Provides native integration with surrounding AWS infrastructure like IAM, CloudWatch, and Lambda.",
+                    "Synchronous Multi-AZ deployments guarantee rapid failover and enterprise-grade SLA reliability."
+                ]
             },
             {
                 title: "RDS Architecture Overview",
-                image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1000&q=80",
-                points: ["Operates within a Virtual Private Cloud (VPC) for total network isolation.", "Compute instances handle requests and execute the DB engine.", "Data and logs are stored persistently on Elastic Block Store (EBS) volumes.", "Optional synchronous replication to a standby instance for Multi-AZ.", "Endpoints provide a stable connection URL decoupled from physical IPs."]
+                image: "https://picsum.photos/seed/awsrds_arch7/1200/800",
+                points: [
+                    "Deployed entirely within a private Virtual Private Cloud (VPC) leveraging strict subnet isolation.",
+                    "Utilizes specialized EC2 instances to process complex query execution and connection handling.",
+                    "Underlying persistent data is physically stored on distributed block-level Elastic Block Store (EBS) architectures.",
+                    "In Multi-AZ, all write operations are synchronously replicated to a standby replica before acknowledging success.",
+                    "Provides a stable DNS Endpoint that seamlessly hides the underlying instance IP addresses from the application tier."
+                ]
             },
             {
                 title: "Core Components",
-                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
-                points: ["DB Instance: An isolated database environment running in the cloud.", "Storage: Backed by EBS optimized for DB I/O performance.", "Endpoint: A DNS address that applications use to connect to the DB.", "Parameter Groups: Custom configurations determining system behavior.", "Security Groups: Virtual firewalls controlling allowed DB traffic."]
+                image: "https://picsum.photos/seed/awsrds_core8/1200/800",
+                points: [
+                    "DB Instance: The primary isolated cloud environment executing the selected database engine software.",
+                    "Storage Volumes: High-throughput EBS volumes dynamically provisioned for database files and transaction logs.",
+                    "DNS Endpoint: The static connection string format: `<db-name>.<region>.rds.amazonaws.com`.",
+                    "Parameter Groups: Collections of dynamic/static database configuration settings applied across instances.",
+                    "Security Groups: Stateful virtual firewalls dictating explicit ingress connection access down to the specific port."
+                ]
             },
             {
                 title: "Supported Database Engines",
-                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80",
-                points: ["MySQL: The most widely adopted open-source relational database.", "PostgreSQL: Advanced, enterprise-tier open-source object-relational DB.", "MariaDB: A high-performance, community-developed fork of MySQL.", "Oracle: A premium, widely used commercial database management system.", "SQL Server: Microsoft's powerful DB for enterprise applications."]
+                image: "https://picsum.photos/seed/awsrds_engines9/1200/800",
+                points: [
+                    "Amazon Aurora: Custom AWS high-performance distributed engine natively compatible with MySQL and Postgres.",
+                    "MySQL: The universal standard open-source relational database running majority of modern web applications.",
+                    "PostgreSQL: The most advanced, feature-rich open-source object-relational DB with excellent geospatial support.",
+                    "MariaDB: A rapidly evolving, highly performant community-developed drop-in replacement for MySQL.",
+                    "Commercial Engines: Native robust support for Oracle and Microsoft SQL Server utilizing specialized licensing."
+                ]
             },
             {
                 title: "Amazon Aurora",
-                image: "https://images.unsplash.com/photo-1462206092226-f46025ffe607?auto=format&fit=crop&w=1000&q=80",
-                points: ["A proprietary AWS DB engine fully compatible with MySQL and PostgreSQL.", "Offers up to 5x the throughput of standard MySQL and 3x of PostgreSQL.", "Divides volume into 10GB segments spread across multiple storage nodes.", "Replicates six copies of data across three Availability Zones immediately.", "Features 'Serverless' auto-scaling capabilities for variable workloads."]
+                image: "https://picsum.photos/seed/awsrds_aurora10/1200/800",
+                points: [
+                    "A groundbreaking cloud-native DB offering up to 5x throughput of MySQL and 3x throughput of PostgreSQL.",
+                    "Logically decouples compute processing from a highly distributed, auto-scaling shared storage plane.",
+                    "Automatically replicates data 6 times across 3 different physical Availability Zones for intense durability.",
+                    "Storage automatically grows incrementally from 10GB up to an astonishing 128 TiB without any downtime.",
+                    "Aurora Serverless v2 enables instant, sub-second capacity scaling for highly unpredictable workloads."
+                ]
             },
             {
                 title: "RDS Instance Types",
-                image: "https://images.unsplash.com/photo-1534081333815-abc501509176?auto=format&fit=crop&w=1000&q=80",
-                points: ["Standard (m-series): Balance of compute, memory, and network resources.", "Memory Optimized (r/x-series): High RAM ratios for complex operations.", "Burstable Performance (t-series): Baseline performance with CPU burst limits.", "Selection heavily depends on application CPU/memory utilization patterns.", "Instance families can be easily modified later as requirements evolve."]
+                image: "https://picsum.photos/seed/awsrds_inst11/1200/800",
+                points: [
+                    "Standard (M-series): Provides a balanced, predictable ratio of compute, memory, and network resources.",
+                    "Memory Optimized (R/X-series): Tailored with massive RAM footprints to allow for large memory cache hits.",
+                    "Burstable (T-series): Operates at a baseline speed and accumulates CPU credits to burst during sudden spikes.",
+                    "Instance families leverage AWS Nitro system components to offload networking logic and maximize I/O.",
+                    "Vertical scaling simply involves stopping the instance, modifying the instance class, and restarting it within minutes."
+                ]
             },
             {
                 title: "Storage Types",
-                image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=1000&q=80",
-                points: ["General Purpose (SSD): Balanced price/performance for most workloads.", "Provisioned IOPS (SSD): For high-performance, I/O intensive databases.", "Magnetic (Standard): Legacy storage for backward compatibility.", "Supports Storage Auto Scaling, preventing 'out of space' disruptions.", "Maximum storage limits can reach up to 64-128 TiB for primary engines."]
+                image: "https://picsum.photos/seed/awsrds_strg12/1200/800",
+                points: [
+                    "General Purpose SSD (gp2/gp3): Highly balanced storage offering burstable IOPS, scaling proportionally with volume size.",
+                    "Provisioned IOPS SSD (io1/io2): Delivers deterministic, high-performance I/O for aggressive transactional workloads.",
+                    "Magnetic Standard: A legacy, low-cost option utilizing spinning rust HDDs, strictly kept for backward compatibility.",
+                    "Storage Auto Scaling natively monitors remaining space and expands volumes iteratively with zero app interruption.",
+                    "Optimized network connections to EBS ensure sub-millisecond latencies for raw data block retrieval."
+                ]
             },
             {
                 title: "High Availability (Multi-AZ)",
-                image: "https://images.unsplash.com/photo-1614064641913-6b71a2ec9697?auto=format&fit=crop&w=1000&q=80",
-                points: ["Automatically provisions a synchronous standby replica.", "The standby lives in a physically different Availability Zone (AZ).", "In case of primary failure, RDS automatically fails over to the standby.", "The Endpoint URL remains exactly the same, preventing app reconfiguration.", "Essential for enterprise production environments and disaster recovery."]
+                image: "https://picsum.photos/seed/awsrds_haz13/1200/800",
+                points: [
+                    "Seamlessly deploys an exact replica of the database instance in an entirely separate geographic Availability Zone.",
+                    "Executes synchronous block-level storage replication so every single write is committed on both nodes simultaneously.",
+                    "If the primary hardware fails or a network partition occurs, a DNS CNAME shift points to the standby in 60 seconds.",
+                    "The standby node cannot be queried or read from; it exists entirely passively waiting for disaster recovery.",
+                    "Multi-AZ Cluster architecture introduces a newer approach mapping one primary to two readable standby nodes."
+                ]
             },
             {
                 title: "Read Replicas",
-                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80",
-                points: ["Asynchronous copies of the primary instance used to offload logic.", "Drastically improves application performance for read-heavy operations.", "Up to 15 Read Replicas can be created per primary RDS database.", "Can be manually promoted into a standalone primary DB if needed.", "Natively supported for MySQL, PostgreSQL, MariaDB, and Oracle."]
+                image: "https://picsum.photos/seed/awsrds_repl14/1200/800",
+                points: [
+                    "Leverages the database engine's native asynchronous replication capabilities to clone data continuously.",
+                    "Dramatically improves application throughput by massively offloading heavy read queries (e.g., reporting/analytics).",
+                    "Allows up to 15 distinct Read Replicas per primary DB instance, which can even reside in different AWS Regions.",
+                    "A Read Replica can instantly be explicitly promoted to become a new standalone primary database.",
+                    "It incurs minor replication lag (usually milliseconds), so applications must handle eventual consistency gracefully."
+                ]
             },
             {
                 title: "Backup and Recovery",
-                image: "https://images.unsplash.com/photo-1614064850003-14afe6e3415e?auto=format&fit=crop&w=1000&q=80",
-                points: ["Automated Backups: Continuous snapshot creation during backup windows.", "Allows Point-In-Time Recovery (PITR) to any specific second.", "Recovery point window can be configured up to 35 days in the past.", "Manual Snapshots: User-initiated backups kept until manually deleted.", "Snapshots can be copied to move databases across global AWS Regions."]
+                image: "https://picsum.photos/seed/awsrds_backup15/1200/800",
+                points: [
+                    "Automated Backups occur daily silently alongside 5-minute transaction log captures, saved directly to Amazon S3.",
+                    "Point-In-Time Recovery (PITR) allows restoring an entirely new database to any exact second of its history.",
+                    "The backup retention window can be dynamically adjusted between 1 day and 35 total days depending on compliance.",
+                    "Manual DB Snapshots capture the entire storage volume explicitly, allowing long-term data archiving indefinitely.",
+                    "Snapshots can be seamlessly encrypted, explicitly shared across separate AWS accounts, or migrated globally."
+                ]
             },
             {
                 title: "Security in RDS",
-                image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1000&q=80",
-                points: ["Data Encryption at Rest using AWS Key Management Service (KMS).", "Data Encryption in Transit requiring SSL/TLS certificates.", "IAM Authentication limits reliance on built-in native DB passwords.", "Transparent Data Encryption (TDE) support for SQL Server and Oracle.", "Strict hypervisor-level OS isolation protects underlying hardware."]
+                image: "https://picsum.photos/seed/awsrds_sec16/1200/800",
+                points: [
+                    "Encryption at Rest is powered natively by AWS Key Management Service (KMS) AES-256 for all block storage elements.",
+                    "Encryption in Transit utilizes strict TLS/SSL parameters, effectively neutralizing unencrypted network sniffing.",
+                    "IAM Database Authentication generates secure 15-minute temporary tokens instead of relying on stagnant passwords.",
+                    "Explicitly supports Transparent Data Encryption (TDE) specifically for SQL Server and Oracle engines.",
+                    "Rigid AWS physical security and hypervisor-level isolation protects instances from multi-tenant hardware sniffing."
+                ]
             },
             {
                 title: "Networking Basics",
-                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
-                points: ["Total network compartmentalization using Virtual Private Cloud (VPC).", "Private subnets ensure DBs are not directly accessible from the internet.", "Subnet Groups map the specific IP ranges available for RDS allocation.", "Security Groups act as stateful firewalls bounding traffic strictly.", "Must explicitly whitelist inbound traffic and specific engine ports."]
+                image: "https://picsum.photos/seed/awsrds_vpc17/1200/800",
+                points: [
+                    "Databases inherently reside within an isolated Amazon Virtual Private Cloud (VPC) securing the perimeter topology.",
+                    "Best practices emphatically dictate deploying RDS into Private Subnets without direct arbitrary internet gateways attached.",
+                    "DB Subnet Groups map the exact valid IP address blocks the database instances are allowed to physically inhabit.",
+                    "Security Groups act as hyper-strict stateful firewalls bounding all ingress and egress network traffic at the ENI level.",
+                    "Application servers must clearly be explicitly whitelisted to communicate inward on strict dedicated ports (e.g., 3306)."
+                ]
             },
             {
                 title: "Monitoring and Performance",
-                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80",
-                points: ["Amazon CloudWatch natively monitors CPU, IOPS, and Storage.", "Enhanced Monitoring provides granular, real-time, OS-level metrics.", "Performance Insights visualizes database load systematically.", "CloudWatch Alarms trigger automated scripts or email notifications.", "Logs (Error, General, Slow Query) can be exported entirely to CloudWatch."]
+                image: "https://picsum.photos/seed/awsrds_monitor18/1200/800",
+                points: [
+                    "Amazon CloudWatch natively streams continuous metrics (CPU utilization, Read/Write IOPS, Freeable Memory, Connections).",
+                    "Enhanced Monitoring provides deep, highly granular, 1-second accuracy operating system-level telemetry tracking.",
+                    "Performance Insights paints an intuitive dashboard measuring Active Sessions heavily utilizing specific SQL operations.",
+                    "CloudWatch Alarms programmatically track thresholds to trigger automated Slack, SNS, or Lambda actions.",
+                    "Engine-specific Logs (Error logs, General schema logs, Slow Query analysis) are automatically exported and retained."
+                ]
             },
             {
                 title: "Performance Optimization",
-                image: "https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?auto=format&fit=crop&w=1000&q=80",
-                points: ["Indexing tables correctly ensures efficient internal data retrieval.", "Fine-tuning DB Parameter Groups (e.g., maximum concurrent connections).", "Offloading intensive reads using Read Replicas or ElastiCache caching.", "Right-sizing compute instances and provisioning appropriate IOPS storage.", "Using Performance Insights to re-write heavily bottlenecked queries."]
+                image: "https://picsum.photos/seed/awsrds_opt19/1200/800",
+                points: [
+                    "Correctly creating Index/B-Trees guarantees absolute efficiency of complex internal data retrieval mechanics and joins.",
+                    "System Administrators can deeply customize instance capacities mathematically matching raw CPU threads to connection limits.",
+                    "Architects commonly deploy Amazon ElastiCache (Redis/Memcached) strategically in front of RDS to absorb read friction.",
+                    "Right-sizing physical compute instances and actively migrating to advanced Provisioned IOPS or gp3 storage.",
+                    "Routinely leveraging Performance Insights to methodically re-write application bottlenecks producing heavily unoptimized queries."
+                ]
             },
             {
                 title: "Pricing Model",
-                image: "https://images.unsplash.com/photo-1580519542036-ed47f3e42a1d?auto=format&fit=crop&w=1000&q=80",
-                points: ["Pay-As-You-Go model with absolutely no upfront long-term contracts.", "Factor costs: Instance Class, Storage, Multi-AZ, and Egress Data Network.", "Reserved Instances (1/3 years) offer 30-50% significant cost savings.", "Stopped instances only incur charges for their provisioned persistent storage.", "Ingress Data Transfer strictly into an AWS Region is generally free."]
+                image: "https://picsum.photos/seed/awsrds_price20/1200/800",
+                points: [
+                    "Follows AWS's overarching Pay-As-You-Go model requiring zero upfront long-term binding business contracts.",
+                    "Cost multiplication strictly factors Instance Class size, Storage volume type, Multi-AZ overhead, and Egress Data Network boundaries.",
+                    "Deploying Reserved Instances formally commits capital for 1 or 3-year term horizons offering massive 30-60% overall discounts.",
+                    "Purposefully stopping unneeded non-production DB instances immediately halts compute hourly charges (only storage is billed).",
+                    "Inbound Data Transfer straight into the AWS infrastructure environment is strategically architected to always be generally free."
+                ]
             },
             {
                 title: "RDS vs Self-Managed",
-                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80",
-                points: ["Self-managed requires complex OS patching, manual scaling, and scripts.", "RDS absolutely eliminates 'undifferentiated heavy lifting' tasks.", "Self-managed allows full SSH/Root access to the DB host OS.", "RDS purposely restricts root access to maintain system stability.", "RDS often yields a dramatically lower Total Cost of Ownership (TCO)."]
+                image: "https://picsum.photos/seed/awsrds_vs1_21/1200/800",
+                points: [
+                    "Deploying Self-managed databases firmly mandates tedious continuous OS patching, manual scalability hacks, and custom backup crons.",
+                    "Amazon RDS drastically minimizes operational risk by taking over entirely these 'undifferentiated heavy lifting' mechanical operations.",
+                    "Self-managed uniquely allows deep system architects full Root/SSH console access directly to the underlying physical Host execution OS.",
+                    "Amazon RDS conversely aggressively restricts Host-level Root access intentionally to maintain pristine backend platform system stability.",
+                    "RDS regularly yields a massively lowered total lifetime operational 'Total Cost of Ownership' (TCO) calculation for business enterprises."
+                ]
             },
             {
                 title: "RDS vs Aurora",
-                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
-                points: ["RDS utilizes standard open-source DB engines directly on EC2.", "Aurora is explicitly cloud-native with a distributed storage subsystem.", "Aurora handles automatic distributed storage scaling up to 128 TiB.", "Aurora features noticeably faster failovers compared to Multi-AZ RDS.", "Aurora pricing is higher but offers overwhelmingly superior concurrency."]
+                image: "https://picsum.photos/seed/awsrds_aurvs22/1200/800",
+                points: [
+                    "Amazon RDS directly transplants raw unmodified open-source DB engines precisely onto standalone EC2 computing foundation networks.",
+                    "Amazon Aurora is exclusively purpose-built and logically 'cloud-native' with a radically separated storage subsystem and orchestration cluster.",
+                    "Aurora automatically stretches backend block storage up to a colossal 128 TiB completely dynamically, while standard RDS maxes at 64 TiB.",
+                    "Aurora drastically modernizes failovers yielding nearly instantaneous disaster sub-second recovery versus standard Multi-AZ's ~1-minute lag.",
+                    "Aurora billing tiers trend somewhat higher, but routinely subsidize this premium significantly through vastly superior concurrency elasticity throughput."
+                ]
             },
             {
                 title: "Real-World Use Cases",
-                image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=80",
-                points: ["Web/Mobile Apps: Highly scalable backends for millions of users.", "E-commerce Platforms: Strong transactional consistency for retail carts.", "Financial Operations: Rigid ACID compliance for banking transactions.", "Gaming Servers: Real-time processing for dynamic player states.", "Enterprise CRM: Migrating legacy databases directly into the cloud."]
+                image: "https://picsum.photos/seed/awsrds_use23/1200/800",
+                points: [
+                    "Web & Mobile Deployments: Massively parallel and robust backend metadata processing layers capable of handling tens of millions of users.",
+                    "E-commerce Integrations: Ensuring impenetrable transactional guarantees, rigorous ACID validation, and strict consistency for global retail shopping carts.",
+                    "Financial Ledgers: Securely routing, validating, and persisting highly compliant banking payment data matching international regulatory standards.",
+                    "Gaming Architectures: Storing continuously updating, highly dynamic online real-time multiplayer states, virtual economies, and metadata profiles.",
+                    "Enterprise ERP Migrations: Seamlessly hoisting and transplanting incredibly large-scale physical legacy SQL/Oracle warehouses directly into the secure cloud."
+                ]
             },
             {
                 title: "Advantages & Limitations",
-                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80",
-                points: ["Pros: Immediate deployment, high scalability, automated fault tolerance.", "Pros: Wide engine compatibility with very minimal operational overhead.", "Cons: Cannot deeply access the underlying operating system.", "Cons: Scale limits exist strictly based on DB engine restrictions.", "Cons: Version upgrades sometimes require forced scheduled downtime."]
+                image: "https://picsum.photos/seed/awsrds_adv24/1200/800",
+                points: [
+                    "Pros: Incredible deployment velocity, automatic geographical fault tolerance, and inherently seamless vertical scaling mechanics.",
+                    "Pros: Highly compatible directly translating traditional open-source engines with intensely negligible system administration workflow friction.",
+                    "Cons: Pure inability to aggressively tweak raw operating system parameters or inject intensely custom system-level DB hyper-plugins.",
+                    "Cons: Ultimate storage scale ceilings logically exist purely predicated on the native restrictions intrinsic to your chosen standard Database Engine.",
+                    "Cons: Certain aggressive major Engine Version upgrades might fundamentally require heavily orchestrated active scheduled maintenance window disruption downtimes."
+                ]
             },
             {
                 title: "Conclusion",
-                image: "https://images.unsplash.com/photo-1462206092226-f46025ffe607?auto=format&fit=crop&w=1000&q=80",
-                points: ["RDS transforms traditional complex databases into a simple cloud utility.", "Enables rapid deployment and robust high-availability capabilities.", "Frees developers to innovate rather than manage hardware logistics.", "The logical bridge between self-managed DBs and pure serverless data.", "Evaluate Aurora for extreme scale, or standard RDS for broad compatibility."]
+                image: "https://picsum.photos/seed/awsrds_conc25/1200/800",
+                points: [
+                    "Amazon RDS completely revolutionizes the administration overhead traditionally associated with legacy self-hosted complex relational databases.",
+                    "Aggressively accelerates engineering deployment operations enabling organizations strict focus on architectural feature development rather than IT logistics.",
+                    "Offers highly customized, specialized engine pathways serving everything from lightweight web metadata up to highly critical finance applications.",
+                    "Functions as the logical evolutionary architectural link safely bridging purely physical environments into highly serverless operational ecosystems.",
+                    "Architects comprehensively evaluate standard RDS for generic raw compatibility or AWS Aurora for pushing extreme operational high-availability ceilings."
+                ]
             }
         ];
 
