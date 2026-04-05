@@ -518,7 +518,7 @@
             },
             {
                 title: "Introduction to Databases",
-                image: "images/server_racks.png",
+                image: "images/s2_filing_1775375607116.png",
                 points: [
                     "A database is an organized, structured repository of data optimized for rapid access and management.",
                     "Essential foundation for modern dynamic websites, mobile applications, and complex enterprise backends.",
@@ -529,7 +529,7 @@
             },
             {
                 title: "Relational vs Non-Relational",
-                image: "images/abstract_network.png",
+                image: "images/s3_relational_1775375624645.png",
                 points: [
                     "Relational (SQL): Strict schemas defining tables, rows, columns, and foreign key relationships.",
                     "Relational databases enforce ACID properties (Atomicity, Consistency, Isolation, Durability) for reliability.",
@@ -540,7 +540,7 @@
             },
             {
                 title: "What is Amazon RDS?",
-                image: "images/cyber_security.png",
+                image: "images/s4_rds_1775375641512.png",
                 points: [
                     "Amazon RDS is a robust, fully managed Database-as-a-Service (DBaaS) provided by AWS.",
                     "Abstracts away the underlying OS, allowing focus strictly on schema/query optimization.",
@@ -551,7 +551,7 @@
             },
             {
                 title: "Overview of AWS Cloud",
-                image: "images/metrics_dashboard.png",
+                image: "images/s5_world_1775375661217.png",
                 points: [
                     "AWS provides a massive global infrastructure comprising Regions and isolated Availability Zones (AZs).",
                     "Offers a rich catalog of 200+ fully featured services including Compute (EC2), Storage (S3), and Networking.",
@@ -562,7 +562,7 @@
             },
             {
                 title: "Why Use Amazon RDS?",
-                image: "images/cloud_database.png",
+                image: "images/s6_relax_1775375677201.png",
                 points: [
                     "Drastically reduces database administration constraints, lowering overall engineering operational overhead.",
                     "Features automated Point-In-Time recovery and zero-downtime automated OS and Engine minor version patching.",
@@ -573,7 +573,7 @@
             },
             {
                 title: "RDS Architecture Overview",
-                image: "images/server_racks.png",
+                image: "images/s7_blueprint_1775375695929.png",
                 points: [
                     "Deployed entirely within a private Virtual Private Cloud (VPC) leveraging strict subnet isolation.",
                     "Utilizes specialized EC2 instances to process complex query execution and connection handling.",
@@ -584,7 +584,7 @@
             },
             {
                 title: "Core Components",
-                image: "images/abstract_network.png",
+                image: "images/s8_cpu_1775375710101.png",
                 points: [
                     "DB Instance: The primary isolated cloud environment executing the selected database engine software.",
                     "Storage Volumes: High-throughput EBS volumes dynamically provisioned for database files and transaction logs.",
@@ -595,7 +595,7 @@
             },
             {
                 title: "Supported Database Engines",
-                image: "images/cyber_security.png",
+                image: "images/s9_badges_1775375726999.png",
                 points: [
                     "Amazon Aurora: Custom AWS high-performance distributed engine natively compatible with MySQL and Postgres.",
                     "MySQL: The universal standard open-source relational database running majority of modern web applications.",
@@ -606,7 +606,7 @@
             },
             {
                 title: "Amazon Aurora",
-                image: "images/metrics_dashboard.png",
+                image: "images/s10_aurora_1775375745472.png",
                 points: [
                     "A groundbreaking cloud-native DB offering up to 5x throughput of MySQL and 3x throughput of PostgreSQL.",
                     "Logically decouples compute processing from a highly distributed, auto-scaling shared storage plane.",
@@ -617,7 +617,7 @@
             },
             {
                 title: "RDS Instance Types",
-                image: "images/cloud_database.png",
+                image: "images/s11_ssd_1775375760727.png",
                 points: [
                     "Standard (M-series): Provides a balanced, predictable ratio of compute, memory, and network resources.",
                     "Memory Optimized (R/X-series): Tailored with massive RAM footprints to allow for large memory cache hits.",
@@ -639,7 +639,7 @@
             },
             {
                 title: "High Availability (Multi-AZ)",
-                image: "images/abstract_network.png",
+                image: "images/s12_multiaz_1775375777439.png",
                 points: [
                     "Seamlessly deploys an exact replica of the database instance in an entirely separate geographic Availability Zone.",
                     "Executes synchronous block-level storage replication so every single write is committed on both nodes simultaneously.",
@@ -650,7 +650,7 @@
             },
             {
                 title: "Read Replicas",
-                image: "images/cyber_security.png",
+                image: "images/s13_replicas_1775375795043.png",
                 points: [
                     "Leverages the database engine's native asynchronous replication capabilities to clone data continuously.",
                     "Dramatically improves application throughput by massively offloading heavy read queries (e.g., reporting/analytics).",
@@ -661,7 +661,7 @@
             },
             {
                 title: "Backup and Recovery",
-                image: "images/metrics_dashboard.png",
+                image: "images/s15_backup.jpg",
                 points: [
                     "Automated Backups occur daily silently alongside 5-minute transaction log captures, saved directly to Amazon S3.",
                     "Point-In-Time Recovery (PITR) allows restoring an entirely new database to any exact second of its history.",
@@ -672,7 +672,7 @@
             },
             {
                 title: "Security in RDS",
-                image: "images/cloud_database.png",
+                image: "images/cyber_security.png",
                 points: [
                     "Encryption at Rest is powered natively by AWS Key Management Service (KMS) AES-256 for all block storage elements.",
                     "Encryption in Transit utilizes strict TLS/SSL parameters, effectively neutralizing unencrypted network sniffing.",
@@ -683,7 +683,7 @@
             },
             {
                 title: "Networking Basics",
-                image: "images/server_racks.png",
+                image: "images/abstract_network.png",
                 points: [
                     "Databases inherently reside within an isolated Amazon Virtual Private Cloud (VPC) securing the perimeter topology.",
                     "Best practices emphatically dictate deploying RDS into Private Subnets without direct arbitrary internet gateways attached.",
@@ -694,7 +694,7 @@
             },
             {
                 title: "Monitoring and Performance",
-                image: "images/abstract_network.png",
+                image: "images/metrics_dashboard.png",
                 points: [
                     "Amazon CloudWatch natively streams continuous metrics (CPU utilization, Read/Write IOPS, Freeable Memory, Connections).",
                     "Enhanced Monitoring provides deep, highly granular, 1-second accuracy operating system-level telemetry tracking.",
@@ -705,7 +705,7 @@
             },
             {
                 title: "Performance Optimization",
-                image: "images/cyber_security.png",
+                image: "images/s19_speed.jpg",
                 points: [
                     "Correctly creating Index/B-Trees guarantees absolute efficiency of complex internal data retrieval mechanics and joins.",
                     "System Administrators can deeply customize instance capacities mathematically matching raw CPU threads to connection limits.",
@@ -716,7 +716,7 @@
             },
             {
                 title: "Pricing Model",
-                image: "images/metrics_dashboard.png",
+                image: "images/s20_pricing.jpg",
                 points: [
                     "Follows AWS's overarching Pay-As-You-Go model requiring zero upfront long-term binding business contracts.",
                     "Cost multiplication strictly factors Instance Class size, Storage volume type, Multi-AZ overhead, and Egress Data Network boundaries.",
@@ -727,7 +727,7 @@
             },
             {
                 title: "RDS vs Self-Managed",
-                image: "images/cloud_database.png",
+                image: "images/s21_messy.jpg",
                 points: [
                     "Deploying Self-managed databases firmly mandates tedious continuous OS patching, manual scalability hacks, and custom backup crons.",
                     "Amazon RDS drastically minimizes operational risk by taking over entirely these 'undifferentiated heavy lifting' mechanical operations.",
@@ -738,7 +738,7 @@
             },
             {
                 title: "RDS vs Aurora",
-                image: "images/server_racks.png",
+                image: "images/s22_aurvs.jpg",
                 points: [
                     "Amazon RDS directly transplants raw unmodified open-source DB engines precisely onto standalone EC2 computing foundation networks.",
                     "Amazon Aurora is exclusively purpose-built and logically 'cloud-native' with a radically separated storage subsystem and orchestration cluster.",
@@ -749,7 +749,7 @@
             },
             {
                 title: "Real-World Use Cases",
-                image: "images/abstract_network.png",
+                image: "images/s23_usecases.jpg",
                 points: [
                     "Web & Mobile Deployments: Massively parallel and robust backend metadata processing layers capable of handling tens of millions of users.",
                     "E-commerce Integrations: Ensuring impenetrable transactional guarantees, rigorous ACID validation, and strict consistency for global retail shopping carts.",
@@ -760,7 +760,7 @@
             },
             {
                 title: "Advantages & Limitations",
-                image: "images/cyber_security.png",
+                image: "images/s24_adv.jpg",
                 points: [
                     "Pros: Incredible deployment velocity, automatic geographical fault tolerance, and inherently seamless vertical scaling mechanics.",
                     "Pros: Highly compatible directly translating traditional open-source engines with intensely negligible system administration workflow friction.",
@@ -771,7 +771,7 @@
             },
             {
                 title: "Conclusion",
-                image: "images/metrics_dashboard.png",
+                image: "images/s25_conc.jpg",
                 points: [
                     "Amazon RDS completely revolutionizes the administration overhead traditionally associated with legacy self-hosted complex relational databases.",
                     "Aggressively accelerates engineering deployment operations enabling organizations strict focus on architectural feature development rather than IT logistics.",
